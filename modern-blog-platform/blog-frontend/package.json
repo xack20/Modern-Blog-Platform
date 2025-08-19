@@ -6,9 +6,12 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
+    "format": "prettier --write \"src/**/*.ts\"",
     "lint": "next lint"
   },
-  "dependencies": {
+  "dependencies": {    "eslint-config-prettier": "^10.0.1",
+    "eslint-plugin-prettier": "^5.2.2",
+    "prettier": "^3.4.2",
     "@apollo/client": "^3.13.9",
     "@headlessui/react": "^2.2.7",
     "@hookform/resolvers": "^5.2.1",
@@ -24,6 +27,7 @@
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "react-hook-form": "^7.62.0",
+    "react-quill": "^2.0.0",
     "yup": "^1.7.0"
   },
   "devDependencies": {

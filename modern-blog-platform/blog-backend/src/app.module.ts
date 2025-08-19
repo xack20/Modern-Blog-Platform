@@ -7,6 +7,13 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import configuration from './config/configuration';
 import { AuthModule } from './modules/auth/auth.module';
+import { CategoriesModule } from './modules/categories/categories.module';
+import { CommentsModule } from './modules/comments/comments.module';
+import { MediaModule } from './modules/media/media.module';
+import { PostsModule } from './modules/posts/posts.module';
+import { StatisticsModule } from './modules/statistics/statistics.module';
+import { TagsModule } from './modules/tags/tags.module';
+import { UsersModule } from './modules/users/users.module';
 import { PrismaModule } from './prisma.module';
 
 @Module({
@@ -24,6 +31,13 @@ import { PrismaModule } from './prisma.module';
     }),
     PrismaModule,
     AuthModule,
+    PostsModule,
+    CategoriesModule,
+    TagsModule,
+    CommentsModule,
+    MediaModule,
+    UsersModule,
+    StatisticsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -1,8 +1,20 @@
-import { gql } from '@apollo/client';
+import { gql } from "@apollo/client";
 
 export const POSTS_QUERY = gql`
-  query Posts($status: PostStatus, $categoryId: ID, $tagId: ID, $limit: Int, $offset: Int) {
-    posts(status: $status, categoryId: $categoryId, tagId: $tagId, limit: $limit, offset: $offset) {
+  query Posts(
+    $status: PostStatus
+    $categoryId: ID
+    $tagId: ID
+    $limit: Int
+    $offset: Int
+  ) {
+    posts(
+      status: $status
+      categoryId: $categoryId
+      tagId: $tagId
+      limit: $limit
+      offset: $offset
+    ) {
       id
       title
       slug
