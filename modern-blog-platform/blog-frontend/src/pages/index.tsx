@@ -2,8 +2,10 @@ import Layout from '@/components/layout/Layout';
 import Hero from '@/components/ui/Hero';
 import PostCard from '@/components/ui/PostCard';
 import { FEATURED_POSTS_QUERY } from '@/graphql/posts';
+import { Post } from '@/types';
 import { useQuery } from '@apollo/client';
 import { NextSeo } from 'next-seo';
+import Link from 'next/link';
 
 export default function Home() {
   const { data, loading, error } = useQuery(FEATURED_POSTS_QUERY, {
@@ -44,7 +46,7 @@ export default function Home() {
             </div>
           ) : data?.featuredPosts?.length ? (
             <div className="mx-auto mt-12 grid max-w-lg gap-5 lg:max-w-none lg:grid-cols-3">
-              {data.featuredPosts.map((post: any) => (
+              {data.featuredPosts.map((post: Post) => (
                 <PostCard key={post.id} post={post} />
               ))}
             </div>
@@ -70,12 +72,12 @@ export default function Home() {
               </p>
               <div className="mt-8">
                 <div className="inline-flex rounded-md shadow">
-                  <a
+                  <Link
                     href="/register"
                     className="inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-5 py-3 text-base font-medium text-white hover:bg-indigo-700"
                   >
                     Get Started
-                  </a>
+                  </Link>
                 </div>
               </div>
             </div>

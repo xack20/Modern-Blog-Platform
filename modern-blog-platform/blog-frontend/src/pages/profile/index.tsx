@@ -67,8 +67,9 @@ const ProfilePage: NextPage = () => {
       });
       setMessage({ text: 'Profile updated successfully!', type: 'success' });
       setTimeout(() => setMessage(null), 3000);
-    } catch (err: any) {
-      setMessage({ text: err.message || 'Failed to update profile', type: 'error' });
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : 'Failed to update profile';
+      setMessage({ text: errorMessage, type: 'error' });
     }
   };
 

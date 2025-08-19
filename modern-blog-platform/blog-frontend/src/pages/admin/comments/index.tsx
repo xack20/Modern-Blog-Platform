@@ -5,6 +5,7 @@ import { useState } from 'react';
 import AdminLayout from '../../../components/layout/AdminLayout';
 import { APPROVE_COMMENT_MUTATION, COMMENTS_QUERY, DELETE_COMMENT_MUTATION } from '../../../graphql/comments';
 import { formatDate } from '../../../lib/utils';
+import { Comment } from '../../../types';
 
 interface CommentFilters {
   status: 'ALL' | 'PENDING' | 'APPROVED' | 'REJECTED';
@@ -191,7 +192,7 @@ const AdminCommentsPage = () => {
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
-                {comments.map((comment: any) => (
+                {comments.map((comment: Comment) => (
                   <tr key={comment.id} className="hover:bg-gray-50">
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex items-center">
@@ -214,7 +215,7 @@ const AdminCommentsPage = () => {
                           <p className="text-sm font-medium text-gray-900">
                             {comment.author?.username || 'Anonymous'}
                           </p>
-                          <p className="text-xs text-gray-500">{comment.author?.email || ''}</p>
+                          <p className="text-xs text-gray-500">{comment.author?.name || ''}</p>
                         </div>
                       </div>
                     </td>

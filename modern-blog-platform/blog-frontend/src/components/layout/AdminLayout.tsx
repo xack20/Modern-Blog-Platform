@@ -1,6 +1,5 @@
 import Head from 'next/head';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
 import React, { ReactNode, useState } from 'react';
 
 type AdminLayoutProps = {
@@ -14,7 +13,6 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({
   title,
   activePage = 'dashboard',
 }) => {
-  const router = useRouter();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const navigation = [

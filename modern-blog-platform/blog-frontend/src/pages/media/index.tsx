@@ -9,7 +9,7 @@ import { GET_MY_MEDIA } from '../../graphql/media';
 
 const MediaPage: NextPage = () => {
   const router = useRouter();
-  const { data, loading, error } = useQuery(GET_MY_MEDIA);
+  useQuery(GET_MY_MEDIA);
 
   // Check if user is authenticated
   useEffect(() => {

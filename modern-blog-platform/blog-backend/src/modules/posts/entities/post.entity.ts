@@ -1,6 +1,6 @@
 import { Field, ID, ObjectType } from '@nestjs/graphql';
-import { PostStatus } from '@prisma/client';
 import { Category } from '../../categories/entities/category.entity';
+import { PostStatus } from '../../../common/enums/post-status.enum';
 import { Tag } from '../../tags/entities/tag.entity';
 import { User } from '../../users/entities/user.entity';
 

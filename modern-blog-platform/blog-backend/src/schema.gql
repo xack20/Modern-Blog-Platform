@@ -1,204 +1,327 @@
-type User {
-  id: ID!
-  email: String!
-  username: String!
-  role: Role!
-  profile: Profile
-  posts: [Post!]!
-  createdAt: DateTime!
-  updatedAt: DateTime!
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type AuthResponse {
+  access_token: String!
+  user: UserInfo!
 }
 
-type Profile {
-  id: ID!
-  bio: String
-  avatar: String
-  website: String
-  twitter: String
-  github: String
-  linkedin: String
-}
-
-type Post {
-  id: ID!
-  title: String!
-  slug: String!
-  content: String!
-  excerpt: String
-  featuredImage: String
-  status: PostStatus!
-  seoTitle: String
-  seoDescription: String
-  views: Int!
-  author: User!
-  category: Category
-  tags: [Tag!]!
-  comments: [Comment!]!
-  createdAt: DateTime!
-  updatedAt: DateTime!
-  publishedAt: DateTime
+type BlogStats {
+  totalCategories: Int!
+  totalComments: Int!
+  totalMedia: Int!
+  totalPosts: Int!
+  totalTags: Int!
+  totalUsers: Int!
+  totalViews: Int!
 }
 
 type Category {
-  id: ID!
-  name: String!
-  slug: String!
+  createdAt: DateTime!
   description: String
-  posts: [Post!]!
-  createdAt: DateTime!
-  updatedAt: DateTime!
-}
-
-type Tag {
   id: ID!
   name: String!
+  posts: [Post]!
   slug: String!
-  posts: [Post!]!
-  createdAt: DateTime!
   updatedAt: DateTime!
 }
 
 type Comment {
-  id: ID!
-  content: String!
-  status: CommentStatus!
   author: User!
-  post: Post!
-  parent: Comment
-  replies: [Comment!]!
+  authorId: String!
+  content: String!
   createdAt: DateTime!
+  id: ID!
+  parent: Comment
+  parentId: String
+  post: Post!
+  postId: String!
+  replies: [Comment!]!
+  status: CommentStatus!
   updatedAt: DateTime!
 }
 
-type Media {
-  id: ID!
-  filename: String!
-  url: String!
-  type: String!
-  size: Int!
-  user: User!
-  createdAt: DateTime!
-}
-
-enum Role {
-  USER
-  EDITOR
-  ADMIN
-}
-
-enum PostStatus {
-  DRAFT
-  PUBLISHED
-  ARCHIVED
-}
-
+"""Status of a comment"""
 enum CommentStatus {
-  PENDING
   APPROVED
+  PENDING
   REJECTED
 }
 
-type AuthResponse {
-  user: User!
-  access_token: String!
+input CommentsFilterInput {
+  onlyRootComments: Boolean
+  postId: String
+  searchTerm: String
+  skip: Float
+  status: CommentStatus
+  take: Float
+  userId: String
 }
 
-type Query {
-  # Auth
-  me: User
-
-  # Users
-  users: [User!]!
-  user(id: ID!): User
-
-  # Posts
-  posts(status: PostStatus, categoryId: ID, tagId: ID, limit: Int = 10, offset: Int = 0): [Post!]!
-  post(id: ID, slug: String): Post
-  featuredPosts(limit: Int = 5): [Post!]!
-  searchPosts(query: String!, limit: Int = 10): [Post!]!
-
-  # Categories
-  categories: [Category!]!
-  category(id: ID, slug: String): Category
-
-  # Tags
-  tags: [Tag!]!
-  tag(id: ID, slug: String): Tag
-
-  # Comments
-  comments(postId: ID!, status: CommentStatus): [Comment!]!
-
-  # Media
-  media(userId: ID, limit: Int = 20, offset: Int = 0): [Media!]!
+input CreateCategoryInput {
+  description: String
+  name: String!
 }
 
-type Mutation {
-  # Auth
-  register(email: String!, username: String!, password: String!): AuthResponse!
-  login(email: String!, password: String!): AuthResponse!
-  refreshToken: AuthResponse!
+input CreateCommentInput {
+  content: String!
+  parentId: String
+  postId: String!
+}
 
-  # Users
-  updateProfile(bio: String, avatar: String, website: String, twitter: String, github: String, linkedin: String): User!
-  updateUser(id: ID!, role: Role): User!
-  deleteUser(id: ID!): Boolean!
-
-  # Posts
-  createPost(input: CreatePostInput!): Post!
-  updatePost(id: ID!, input: UpdatePostInput!): Post!
-  publishPost(id: ID!): Post!
-  deletePost(id: ID!): Boolean!
-
-  # Categories
-  createCategory(name: String!, slug: String!, description: String): Category!
-  updateCategory(id: ID!, name: String, slug: String, description: String): Category!
-  deleteCategory(id: ID!): Boolean!
-
-  # Tags
-  createTag(name: String!, slug: String!): Tag!
-  updateTag(id: ID!, name: String, slug: String): Tag!
-  deleteTag(id: ID!): Boolean!
-
-  # Comments
-  createComment(postId: ID!, content: String!, parentId: ID): Comment!
-  updateCommentStatus(id: ID!, status: CommentStatus!): Comment!
-  deleteComment(id: ID!): Boolean!
-
-  # Media
-  createMediaUploadUrl(filename: String!, contentType: String!): MediaUploadResponse!
-  confirmMediaUpload(key: String!, filename: String!, size: Int!): Media!
-  deleteMedia(id: ID!): Boolean!
+input CreateMediaInput {
+  filename: String!
+  key: String!
+  size: Float!
+  type: String!
+  url: String!
 }
 
 input CreatePostInput {
-  title: String!
-  slug: String!
+  categoryId: String
   content: String!
   excerpt: String
   featuredImage: String
-  status: PostStatus = DRAFT
-  seoTitle: String
   seoDescription: String
-  categoryId: ID
-  tagIds: [ID!]
+  seoTitle: String
+  status: PostStatus! = DRAFT
+  tagIds: [String]!
+  title: String!
+}
+
+input CreateTagInput {
+  name: String!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+input LoginInput {
+  email: String!
+  password: String!
+}
+
+type Media {
+  createdAt: DateTime!
+  filename: String!
+  id: ID!
+  key: String!
+  size: Float!
+  type: String!
+  url: String!
+  user: User!
+  userId: String!
+}
+
+type Mutation {
+  approveComment(id: ID!): Comment!
+  createCategory(input: CreateCategoryInput!): Category!
+  createComment(createCommentInput: CreateCommentInput!): Comment!
+  createMedia(createMediaInput: CreateMediaInput!): Media!
+  createPost(input: CreatePostInput!): Post!
+  createTag(input: CreateTagInput!): Tag!
+  deleteCategory(id: ID!): Boolean!
+  deletePost(id: ID!): Boolean!
+  deleteTag(id: ID!): Boolean!
+  generatePresignedUrl(key: String!): String!
+  login(input: LoginInput!): AuthResponse!
+  refreshToken: AuthResponse!
+  register(input: RegisterInput!): AuthResponse!
+  rejectComment(id: ID!): Comment!
+  removeComment(id: ID!): Comment!
+  removeMedia(id: ID!): Media!
+  removeUser(id: ID!): User!
+  updateAnyUser(id: ID!, updateUserInput: UpdateUserInput!): User!
+  updateCategory(input: UpdateCategoryInput!): Category!
+  updateComment(updateCommentInput: UpdateCommentInput!): Comment!
+  updatePost(input: UpdatePostInput!): Post!
+  updateProfile(updateProfileInput: UpdateProfileInput!): User!
+  updateTag(input: UpdateTagInput!): Tag!
+  updateUser(updateUserInput: UpdateUserInput!): User!
+  uploadFile(uploadFileInput: UploadFileInput!): Media!
+}
+
+type Post {
+  author: User!
+  authorId: String!
+  category: Category
+  categoryId: String
+  content: String!
+  createdAt: DateTime!
+  excerpt: String
+  featuredImage: String
+  id: ID!
+  publishedAt: DateTime
+  seoDescription: String
+  seoTitle: String
+  slug: String!
+  status: PostStatus!
+  tags: [Tag]!
+  title: String!
+  updatedAt: DateTime!
+  views: Float!
+}
+
+"""Status of a blog post"""
+enum PostStatus {
+  ARCHIVED
+  DRAFT
+  PUBLISHED
+}
+
+input PostsFilterInput {
+  authorId: String
+  categoryId: String
+  limit: Int
+  offset: Int
+  search: String
+  status: PostStatus
+  tagId: String
+}
+
+type Profile {
+  avatar: String
+  bio: String
+  github: String
+  id: ID!
+  linkedin: String
+  twitter: String
+  userId: String!
+  website: String
+}
+
+type Query {
+  allMedia: [Media!]!
+  blogStatistics: BlogStats!
+  categories: [Category!]!
+  category(id: ID!): Category!
+  categoryBySlug(slug: String!): Category!
+  comment(id: ID!): Comment!
+  comments(filters: CommentsFilterInput): [Comment!]!
+  me: User!
+  media(id: ID!): Media!
+  myMedia: [Media!]!
+  post(id: ID!): Post!
+  postBySlug(slug: String!): Post!
+  posts(filters: PostsFilterInput): [Post!]!
+  publicComments(postId: ID!): [Comment!]!
+  recentActivities: [RecentActivity!]!
+  tag(id: ID!): Tag!
+  tagBySlug(slug: String!): Tag!
+  tags: [Tag!]!
+  user(id: ID!): User!
+  userByUsername(username: String!): User!
+  userComments: [Comment!]!
+  users: [User!]!
+}
+
+type RecentActivity {
+  createdAt: DateTime!
+  description: String!
+  id: String!
+  title: String!
+  type: String!
+  userId: String
+  username: String
+}
+
+input RegisterInput {
+  email: String!
+  password: String!
+  username: String!
+}
+
+"""User role"""
+enum Role {
+  ADMIN
+  EDITOR
+  USER
+}
+
+type Tag {
+  createdAt: DateTime!
+  id: ID!
+  name: String!
+  posts: [Post]!
+  slug: String!
+  updatedAt: DateTime!
+}
+
+input UpdateCategoryInput {
+  description: String
+  id: ID!
+  name: String
+  slug: String
+}
+
+input UpdateCommentInput {
+  content: String
+  id: ID!
+  status: CommentStatus
 }
 
 input UpdatePostInput {
-  title: String
-  slug: String
-  content: String
+  categoryId: String
+  content: String!
   excerpt: String
   featuredImage: String
-  status: PostStatus
-  seoTitle: String
+  id: ID!
   seoDescription: String
-  categoryId: ID
-  tagIds: [ID!]
+  seoTitle: String
+  slug: String
+  status: PostStatus
+  tagIds: [String]!
+  title: String!
 }
 
-type MediaUploadResponse {
-  uploadUrl: String!
-  key: String!
+input UpdateProfileInput {
+  avatar: String
+  bio: String
+  github: String
+  linkedin: String
+  twitter: String
+  website: String
 }
 
-scalar DateTime
+input UpdateTagInput {
+  id: ID!
+  name: String
+  slug: String
+}
+
+input UpdateUserInput {
+  email: String
+  password: String
+  role: Role
+  username: String
+}
+
+"""The `Upload` scalar type represents a file upload."""
+scalar Upload
+
+input UploadFileInput {
+  file: Upload!
+}
+
+type User {
+  comments: [Comment!]!
+  createdAt: DateTime!
+  email: String!
+  id: ID!
+  media: [Media!]!
+  posts: [Post!]!
+  profile: Profile
+  role: Role!
+  updatedAt: DateTime!
+  username: String!
+}
+
+type UserInfo {
+  email: String!
+  id: String!
+  role: String!
+  username: String!
+}

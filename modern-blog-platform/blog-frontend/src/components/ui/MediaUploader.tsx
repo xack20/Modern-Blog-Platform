@@ -1,9 +1,18 @@
 import { useMutation } from '@apollo/client';
 import { useState } from 'react';
-import { UPLOAD_FILE } from '../graphql/media';
+import { UPLOAD_FILE } from '../../graphql/media';
+
+interface Media {
+  id: string;
+  url: string;
+  filename: string;
+  type: string;
+  size: number;
+  createdAt: string;
+}
 
 interface MediaUploaderProps {
-  onUploadSuccess?: (mediaItem: any) => void;
+  onUploadSuccess?: (mediaItem: Media) => void;
   onUploadError?: (error: Error) => void;
   allowedTypes?: string[];
   maxSizeInMB?: number;

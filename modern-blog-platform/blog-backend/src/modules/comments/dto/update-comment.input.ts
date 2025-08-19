@@ -1,13 +1,13 @@
 import { Field, ID, InputType } from '@nestjs/graphql';
-import { CommentStatus } from '@prisma/client';
 import {
-  IsEnum,
-  IsNotEmpty,
-  IsOptional,
-  IsString,
-  IsUUID,
-  MaxLength,
+    IsEnum,
+    IsNotEmpty,
+    IsOptional,
+    IsString,
+    IsUUID,
+    MaxLength,
 } from 'class-validator';
+import { CommentStatus } from '../../../common/enums/comment-status.enum';
 
 @InputType()
 export class UpdateCommentInput {

@@ -1,6 +1,6 @@
 import { Field, ID, InputType } from '@nestjs/graphql';
-import { PostStatus } from '@prisma/client';
 import { IsEnum, IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { PostStatus } from '../../../common/enums/post-status.enum';
 import { CreatePostInput } from './create-post.input';
 
 @InputType()

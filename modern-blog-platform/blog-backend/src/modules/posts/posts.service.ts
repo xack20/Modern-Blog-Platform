@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { PostStatus } from '@prisma/client';
 import slugify from 'slugify';
+import { PostStatus } from '../../common/enums/post-status.enum';
 import { PrismaService } from '../../prisma.service';
 import { CreatePostInput } from './dto/create-post.input';
 import { PostsFilterInput } from './dto/posts-filter.input';

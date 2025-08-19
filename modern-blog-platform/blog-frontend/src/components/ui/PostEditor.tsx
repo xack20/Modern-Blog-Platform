@@ -1,26 +1,41 @@
 import { useMutation, useQuery } from '@apollo/client';
 import dynamic from 'next/dynamic';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import 'react-quill/dist/quill.snow.css';
 import { GET_CATEGORIES } from '../../graphql/categories';
 import { CREATE_POST_MUTATION, POST_QUERY, UPDATE_POST_MUTATION } from '../../graphql/posts';
 import { GET_TAGS } from '../../graphql/tags';
+import { Category, Media, Post, Tag } from '../../types';
 import MediaGallery from './MediaGallery';
 
 // Import the editor dynamically with SSR disabled
 const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 
+interface PostFormData {
+  title: string;
+  slug: string;
+  content: string;
+  excerpt: string;
+  featuredImage: string;
+  status: 'DRAFT' | 'PUBLISHED' | 'ARCHIVED';
+  seoTitle: string;
+  seoDescription: string;
+  categoryId: string;
+  tagIds: string[];
+}
+
 interface PostEditorProps {
   postId?: string;
-  initialData?: any;
+  initialData?: Post;
 }
 
 const PostEditor: React.FC<PostEditorProps> = ({ postId, initialData }) => {
   const router = useRouter();
   const isEditMode = !!postId;
   
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<PostFormData>({
     title: '',
     slug: '',
     content: '',
@@ -30,7 +45,7 @@ const PostEditor: React.FC<PostEditorProps> = ({ postId, initialData }) => {
     seoTitle: '',
     seoDescription: '',
     categoryId: '',
-    tagIds: [] as string[],
+    tagIds: [],
   });
 
   const [showMediaSelector, setShowMediaSelector] = useState(false);
@@ -40,7 +55,7 @@ const PostEditor: React.FC<PostEditorProps> = ({ postId, initialData }) => {
   // Queries and mutations
   const { data: categoriesData } = useQuery(GET_CATEGORIES);
   const { data: tagsData } = useQuery(GET_TAGS);
-  const { data: postData, loading: postLoading } = useQuery(POST_QUERY, {
+  const { data: postData } = useQuery(POST_QUERY, {
     variables: { id: postId },
     skip: !isEditMode,
   });
@@ -64,12 +79,21 @@ const PostEditor: React.FC<PostEditorProps> = ({ postId, initialData }) => {
         seoTitle: post.seoTitle || '',
         seoDescription: post.seoDescription || '',
         categoryId: post.categoryId || '',
-        tagIds: post.tags?.map((tag: any) => tag.id) || [],
+        tagIds: post.tags?.map((tag: Tag) => tag.id) || [],
       });
     } else if (initialData) {
       setFormData((prev) => ({
         ...prev,
-        ...initialData,
+        title: initialData.title,
+        content: initialData.content,
+        excerpt: initialData.excerpt || '',
+        status: initialData.status,
+        featuredImage: initialData.featuredImage || '',
+        categoryId: initialData.categories[0]?.id || '',
+        tagIds: initialData.tags.map(tag => tag.id),
+        slug: initialData.slug || '',
+        seoTitle: initialData.seoTitle || '',
+        seoDescription: initialData.seoDescription || '',
       }));
     }
   }, [isEditMode, postData, initialData]);
@@ -116,7 +140,7 @@ const PostEditor: React.FC<PostEditorProps> = ({ postId, initialData }) => {
     }));
   };
 
-  const handleMediaSelect = (media: any) => {
+  const handleMediaSelect = (media: Media) => {
     setFormData((prev) => ({
       ...prev,
       featuredImage: media.url,
@@ -152,7 +176,7 @@ const PostEditor: React.FC<PostEditorProps> = ({ postId, initialData }) => {
     
     try {
       if (isEditMode) {
-        const { data } = await updatePost({
+        await updatePost({
           variables: {
             id: postId,
             updatePostInput: {
@@ -166,7 +190,7 @@ const PostEditor: React.FC<PostEditorProps> = ({ postId, initialData }) => {
         setMessage({ text: 'Post updated successfully!', type: 'success' });
         setTimeout(() => router.push(`/admin/posts`), 2000);
       } else {
-        const { data } = await createPost({
+        await createPost({
           variables: {
             createPostInput: {
               ...formData,
@@ -179,8 +203,9 @@ const PostEditor: React.FC<PostEditorProps> = ({ postId, initialData }) => {
         setMessage({ text: 'Post created successfully!', type: 'success' });
         setTimeout(() => router.push(`/admin/posts`), 2000);
       }
-    } catch (error: any) {
-      setMessage({ text: error.message || 'An error occurred', type: 'error' });
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'An error occurred';
+      setMessage({ text: errorMessage, type: 'error' });
     }
   };
 
@@ -272,9 +297,11 @@ const PostEditor: React.FC<PostEditorProps> = ({ postId, initialData }) => {
           <div className="flex flex-col md:flex-row gap-4">
             {formData.featuredImage && (
               <div className="w-full md:w-1/3 mb-2">
-                <img
+                <Image
                   src={formData.featuredImage}
                   alt="Featured"
+                  width={800}
+                  height={400}
                   className="w-full h-40 object-cover rounded-md"
                 />
               </div>
@@ -315,7 +342,7 @@ const PostEditor: React.FC<PostEditorProps> = ({ postId, initialData }) => {
               className="w-full p-2 border border-gray-300 rounded-md"
             >
               <option value="">-- Select Category --</option>
-              {categoriesData?.categories?.map((category: any) => (
+              {categoriesData?.categories?.map((category: Category) => (
                 <option key={category.id} value={category.id}>
                   {category.name}
                 </option>
@@ -341,7 +368,7 @@ const PostEditor: React.FC<PostEditorProps> = ({ postId, initialData }) => {
         <div>
           <label className="block mb-1 font-medium">Tags</label>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
-            {tagsData?.tags?.map((tag: any) => (
+            {tagsData?.tags?.map((tag: Tag) => (
               <div key={tag.id} className="flex items-center">
                 <input
                   type="checkbox"

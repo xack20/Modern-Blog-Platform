@@ -1,7 +1,7 @@
 import { useMutation, useQuery } from '@apollo/client';
 import Image from 'next/image';
 import { useState } from 'react';
-import { DELETE_MEDIA, GENERATE_PRESIGNED_URL, GET_MY_MEDIA } from '../../graphql/media';
+import { DELETE_MEDIA, GET_MY_MEDIA } from '../../graphql/media';
 import MediaUploader from './MediaUploader';
 
 interface Media {
@@ -32,7 +32,6 @@ export default function MediaGallery({
 }: MediaGalleryProps) {
   const { data, loading, error, refetch } = useQuery(GET_MY_MEDIA);
   const [deleteMedia] = useMutation(DELETE_MEDIA);
-  const [generatePresignedUrl] = useMutation(GENERATE_PRESIGNED_URL);
   const [selectedMedia, setSelectedMedia] = useState<string | null>(null);
 
   const handleSelect = (media: Media) => {

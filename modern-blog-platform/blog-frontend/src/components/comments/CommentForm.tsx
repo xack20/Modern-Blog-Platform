@@ -45,8 +45,9 @@ export default function CommentForm({
       if (onCommentAdded) {
         onCommentAdded();
       }
-    } catch (err: any) {
-      setError(err.message || 'Failed to post comment');
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : 'Failed to post comment';
+      setError(errorMessage);
     } finally {
       setIsSubmitting(false);
     }

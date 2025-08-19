@@ -48,8 +48,9 @@ export default function Login() {
       
       // Redirect to dashboard or home page
       router.push('/');
-    } catch (error: any) {
-      setLoginError(error.message || 'Login failed. Please try again.');
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'Login failed. Please try again.';
+      setLoginError(errorMessage);
     }
   };
 

@@ -4,6 +4,7 @@ import { useState } from 'react';
 import AdminLayout from '../../../components/layout/AdminLayout';
 import { DELETE_USER_MUTATION, UPDATE_USER_ROLE_MUTATION, USERS_QUERY } from '../../../graphql/users';
 import { formatDate } from '../../../lib/utils';
+import { User } from '../../../types';
 
 interface UserFilters {
   role?: string;
@@ -181,7 +182,7 @@ const AdminUsersPage = () => {
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
-                {users.map((user: any) => (
+                {users.map((user: User) => (
                   <>
                     <tr key={user.id} className="hover:bg-gray-50">
                       <td className="px-6 py-4 whitespace-nowrap">

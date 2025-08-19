@@ -1,5 +1,6 @@
 import { Field, ID, ObjectType } from '@nestjs/graphql';
-import { Role } from '@prisma/client';
+import { Role } from '../../../common/enums/role.enum';
+import { Profile } from './profile.entity';
 
 @ObjectType()
 export class User {
@@ -15,9 +16,8 @@ export class User {
   @Field(() => Role)
   role: Role;
 
-  // Using GraphQL type reference as string
-  @Field({ nullable: true })
-  profile?: any;
+  @Field(() => Profile, { nullable: true })
+  profile?: Profile;
 
   @Field()
   createdAt: Date;

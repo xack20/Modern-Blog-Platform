@@ -1,16 +1,17 @@
 import { UseGuards } from '@nestjs/common';
 import {
-  Args,
-  ID,
-  Mutation,
-  Parent,
-  Query,
-  ResolveField,
-  Resolver,
+    Args,
+    ID,
+    Mutation,
+    Parent,
+    Query,
+    ResolveField,
+    Resolver,
 } from '@nestjs/graphql';
-import { CommentStatus, Role } from '@prisma/client';
 import { CurrentUser } from '../../common/decorators/current-user.decorator';
 import { Roles } from '../../common/decorators/roles.decorator';
+import { CommentStatus } from '../../common/enums/comment-status.enum';
+import { Role } from '../../common/enums/role.enum';
 import { GqlAuthGuard } from '../../common/guards/gql-auth.guard';
 import { RolesGuard } from '../../common/guards/roles.guard';
 import { CommentsService } from './comments.service';

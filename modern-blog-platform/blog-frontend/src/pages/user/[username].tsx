@@ -5,6 +5,7 @@ import Image from 'next/image';
 import Layout from '../../components/layout/Layout';
 import PostCard from '../../components/ui/PostCard';
 import { GET_USER_BY_USERNAME } from '../../graphql/users';
+import { Post } from '../../types';
 
 interface ProfileProps {
   username: string;
@@ -120,7 +121,7 @@ const UserProfilePage: NextPage<ProfileProps> = ({ username }) => {
           <div className="mt-8">
             <h2 className="text-2xl font-bold mb-6">Posts by {user.username}</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {user.posts.map((post: any) => (
+              {user.posts.map((post: Post) => (
                 <PostCard key={post.id} post={post} />
               ))}
             </div>

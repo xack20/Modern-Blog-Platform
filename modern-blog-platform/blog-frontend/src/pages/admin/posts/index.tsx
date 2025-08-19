@@ -1,13 +1,15 @@
 import { useMutation, useQuery } from '@apollo/client';
+import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 import AdminLayout from '../../../components/layout/AdminLayout';
 import {
-    DELETE_POST_MUTATION,
-    POSTS_QUERY,
-    PUBLISH_POST_MUTATION
+  DELETE_POST_MUTATION,
+  POSTS_QUERY,
+  PUBLISH_POST_MUTATION
 } from '../../../graphql/posts';
 import { formatDate } from '../../../lib/utils';
+import { Post } from '../../../types';
 
 const AdminPostsPage = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -75,7 +77,7 @@ const AdminPostsPage = () => {
   const totalPages = Math.ceil(totalPosts / postsPerPage);
 
   const filteredPosts = posts.filter(
-    (post: any) =>
+    (post: Post) =>
       post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
       post.excerpt?.toLowerCase().includes(searchTerm.toLowerCase())
   );
@@ -173,15 +175,17 @@ const AdminPostsPage = () => {
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
-                {filteredPosts.map((post: any) => (
+                {filteredPosts.map((post: Post) => (
                   <tr key={post.id} className="hover:bg-gray-50">
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex items-center">
                         {post.featuredImage && (
                           <div className="flex-shrink-0 h-10 w-10 mr-4">
-                            <img
+                            <Image
+                              width={40}
+                              height={40}
                               className="h-10 w-10 rounded object-cover"
-                              src={post.featuredImage}
+                              src={post.featuredImage || '/placeholder.jpg'}
                               alt={post.title}
                             />
                           </div>
