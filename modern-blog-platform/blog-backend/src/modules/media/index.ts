@@ -4,4 +4,3 @@ export * from './entities/media.entity';
 export * from './media.module';
 export * from './media.resolver';
 export * from './media.service';
-

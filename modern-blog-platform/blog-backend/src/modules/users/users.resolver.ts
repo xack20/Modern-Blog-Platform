@@ -1,12 +1,12 @@
 import { UseGuards } from '@nestjs/common';
 import {
-    Args,
-    ID,
-    Mutation,
-    Parent,
-    Query,
-    ResolveField,
-    Resolver,
+  Args,
+  ID,
+  Mutation,
+  Parent,
+  Query,
+  ResolveField,
+  Resolver,
 } from '@nestjs/graphql';
 import { Role } from '@prisma/client';
 import { CurrentUser } from '../../common/decorators/current-user.decorator';
