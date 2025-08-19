@@ -1,0 +1,147 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  USER
+  EDITOR
+  ADMIN
+}
+
+enum PostStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+enum CommentStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+model User {
+  id        String    @id @default(cuid())
+  email     String    @unique
+  username  String    @unique
+  password  String
+  role      Role      @default(USER)
+  profile   Profile?
+  posts     Post[]
+  comments  Comment[]
+  media     Media[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model Profile {
+  id        String  @id @default(cuid())
+  bio       String?
+  avatar    String?
+  website   String?
+  twitter   String?
+  github    String?
+  linkedin  String?
+  userId    String  @unique
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Post {
+  id              String      @id @default(cuid())
+  title           String
+  slug            String      @unique
+  content         String
+  excerpt         String?
+  featuredImage   String?
+  status          PostStatus  @default(DRAFT)
+  seoTitle        String?
+  seoDescription  String?
+  views           Int         @default(0)
+  authorId        String
+  author          User        @relation(fields: [authorId], references: [id])
+  categoryId      String?
+  category        Category?   @relation(fields: [categoryId], references: [id])
+  tags            PostTag[]
+  comments        Comment[]
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+  publishedAt     DateTime?
+
+  @@index([slug])
+  @@index([status])
+  @@index([authorId])
+  @@index([categoryId])
+}
+
+model Category {
+  id          String    @id @default(cuid())
+  name        String    @unique
+  slug        String    @unique
+  description String?
+  posts       Post[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([slug])
+}
+
+model Tag {
+  id        String    @id @default(cuid())
+  name      String    @unique
+  slug      String    @unique
+  posts     PostTag[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  @@index([slug])
+}
+
+model PostTag {
+  postId String
+  tagId  String
+  post   Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
+  tag    Tag    @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@id([postId, tagId])
+}
+
+model Comment {
+  id        String        @id @default(cuid())
+  content   String
+  status    CommentStatus @default(PENDING)
+  authorId  String
+  author    User          @relation(fields: [authorId], references: [id])
+  postId    String
+  post      Post          @relation(fields: [postId], references: [id], onDelete: Cascade)
+  parentId  String?
+  parent    Comment?      @relation("CommentReplies", fields: [parentId], references: [id])
+  replies   Comment[]     @relation("CommentReplies")
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+
+  @@index([postId])
+  @@index([authorId])
+  @@index([parentId])
+}
+
+model Media {
+  id        String   @id @default(cuid())
+  filename  String
+  url       String
+  key       String   @unique
+  type      String
+  size      Int
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+}

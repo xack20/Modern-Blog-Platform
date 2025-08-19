@@ -1,0 +1,204 @@
+type User {
+  id: ID!
+  email: String!
+  username: String!
+  role: Role!
+  profile: Profile
+  posts: [Post!]!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type Profile {
+  id: ID!
+  bio: String
+  avatar: String
+  website: String
+  twitter: String
+  github: String
+  linkedin: String
+}
+
+type Post {
+  id: ID!
+  title: String!
+  slug: String!
+  content: String!
+  excerpt: String
+  featuredImage: String
+  status: PostStatus!
+  seoTitle: String
+  seoDescription: String
+  views: Int!
+  author: User!
+  category: Category
+  tags: [Tag!]!
+  comments: [Comment!]!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  publishedAt: DateTime
+}
+
+type Category {
+  id: ID!
+  name: String!
+  slug: String!
+  description: String
+  posts: [Post!]!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type Tag {
+  id: ID!
+  name: String!
+  slug: String!
+  posts: [Post!]!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type Comment {
+  id: ID!
+  content: String!
+  status: CommentStatus!
+  author: User!
+  post: Post!
+  parent: Comment
+  replies: [Comment!]!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type Media {
+  id: ID!
+  filename: String!
+  url: String!
+  type: String!
+  size: Int!
+  user: User!
+  createdAt: DateTime!
+}
+
+enum Role {
+  USER
+  EDITOR
+  ADMIN
+}
+
+enum PostStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+enum CommentStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+type AuthResponse {
+  user: User!
+  access_token: String!
+}
+
+type Query {
+  # Auth
+  me: User
+
+  # Users
+  users: [User!]!
+  user(id: ID!): User
+
+  # Posts
+  posts(status: PostStatus, categoryId: ID, tagId: ID, limit: Int = 10, offset: Int = 0): [Post!]!
+  post(id: ID, slug: String): Post
+  featuredPosts(limit: Int = 5): [Post!]!
+  searchPosts(query: String!, limit: Int = 10): [Post!]!
+
+  # Categories
+  categories: [Category!]!
+  category(id: ID, slug: String): Category
+
+  # Tags
+  tags: [Tag!]!
+  tag(id: ID, slug: String): Tag
+
+  # Comments
+  comments(postId: ID!, status: CommentStatus): [Comment!]!
+
+  # Media
+  media(userId: ID, limit: Int = 20, offset: Int = 0): [Media!]!
+}
+
+type Mutation {
+  # Auth
+  register(email: String!, username: String!, password: String!): AuthResponse!
+  login(email: String!, password: String!): AuthResponse!
+  refreshToken: AuthResponse!
+
+  # Users
+  updateProfile(bio: String, avatar: String, website: String, twitter: String, github: String, linkedin: String): User!
+  updateUser(id: ID!, role: Role): User!
+  deleteUser(id: ID!): Boolean!
+
+  # Posts
+  createPost(input: CreatePostInput!): Post!
+  updatePost(id: ID!, input: UpdatePostInput!): Post!
+  publishPost(id: ID!): Post!
+  deletePost(id: ID!): Boolean!
+
+  # Categories
+  createCategory(name: String!, slug: String!, description: String): Category!
+  updateCategory(id: ID!, name: String, slug: String, description: String): Category!
+  deleteCategory(id: ID!): Boolean!
+
+  # Tags
+  createTag(name: String!, slug: String!): Tag!
+  updateTag(id: ID!, name: String, slug: String): Tag!
+  deleteTag(id: ID!): Boolean!
+
+  # Comments
+  createComment(postId: ID!, content: String!, parentId: ID): Comment!
+  updateCommentStatus(id: ID!, status: CommentStatus!): Comment!
+  deleteComment(id: ID!): Boolean!
+
+  # Media
+  createMediaUploadUrl(filename: String!, contentType: String!): MediaUploadResponse!
+  confirmMediaUpload(key: String!, filename: String!, size: Int!): Media!
+  deleteMedia(id: ID!): Boolean!
+}
+
+input CreatePostInput {
+  title: String!
+  slug: String!
+  content: String!
+  excerpt: String
+  featuredImage: String
+  status: PostStatus = DRAFT
+  seoTitle: String
+  seoDescription: String
+  categoryId: ID
+  tagIds: [ID!]
+}
+
+input UpdatePostInput {
+  title: String
+  slug: String
+  content: String
+  excerpt: String
+  featuredImage: String
+  status: PostStatus
+  seoTitle: String
+  seoDescription: String
+  categoryId: ID
+  tagIds: [ID!]
+}
+
+type MediaUploadResponse {
+  uploadUrl: String!
+  key: String!
+}
+
+scalar DateTime
