@@ -14,7 +14,7 @@ export default function Header() {
   const { data } = useQuery(ME_QUERY);
 
   const navigation = [
-    { name: 'Home', href: '/' },
+    // { name: 'Home', href: '/' },
     { name: 'Blog', href: '/blog' },
     { name: 'Categories', href: '/categories' },
     { name: 'About', href: '/about' },
