@@ -1,5 +1,5 @@
 import { UseGuards } from '@nestjs/common';
-import { Args, ID, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { Args, ID, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { Role } from '@prisma/client';
 import { CurrentUser, GqlAuthGuard, Roles, RolesGuard } from '../../common';
 import { User } from '../users/entities/user.entity';
@@ -18,6 +18,13 @@ export class PostsResolver {
     return this.postsService.findAll(filters);
   }
 
+  @Query(() => [Post])
+  async featuredPosts(
+    @Args('limit', { type: () => Int, nullable: true }) limit?: number,
+  ) {
+    return this.postsService.findFeatured(limit);
+  }
+
   @Query(() => Post)
   async post(@Args('id', { type: () => ID }) id: string) {
     return this.postsService.findOne(id);
@@ -33,15 +40,20 @@ export class PostsResolver {
   async createPost(
     @CurrentUser() user: User,
     @Args('input') createPostInput: CreatePostInput,
-  ) {
-    return this.postsService.create(user.id, createPostInput);
+  ): Promise<Post> {
+    return this.postsService.create(user.id, createPostInput) as Promise<Post>;
   }
 
   @Mutation(() => Post)
   @UseGuards(GqlAuthGuard, RolesGuard)
   @Roles(Role.ADMIN, Role.EDITOR)
-  async updatePost(@Args('input') updatePostInput: UpdatePostInput) {
-    return this.postsService.update(updatePostInput.id, updatePostInput);
+  async updatePost(
+    @Args('input') updatePostInput: UpdatePostInput,
+  ): Promise<Post> {
+    return this.postsService.update(
+      updatePostInput.id,
+      updatePostInput,
+    ) as Promise<Post>;
   }
 
   @Mutation(() => Boolean)

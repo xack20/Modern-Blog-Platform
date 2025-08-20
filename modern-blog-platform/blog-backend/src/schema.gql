@@ -82,6 +82,7 @@ input CreatePostInput {
   categoryId: String
   content: String!
   excerpt: String
+  featured: Boolean
   featuredImage: String
   seoDescription: String
   seoTitle: String
@@ -152,6 +153,7 @@ type Post {
   content: String!
   createdAt: DateTime!
   excerpt: String
+  featured: Boolean
   featuredImage: String
   id: ID!
   publishedAt: DateTime
@@ -175,6 +177,7 @@ enum PostStatus {
 input PostsFilterInput {
   authorId: String
   categoryId: String
+  featured: Boolean
   limit: Int
   offset: Int
   search: String
@@ -201,6 +204,7 @@ type Query {
   categoryBySlug(slug: String!): Category!
   comment(id: ID!): Comment!
   comments(filters: CommentsFilterInput): [Comment!]!
+  featuredPosts(limit: Int): [Post!]!
   me: User!
   media(id: ID!): Media!
   myMedia: [Media!]!
@@ -267,6 +271,7 @@ input UpdatePostInput {
   categoryId: String
   content: String!
   excerpt: String
+  featured: Boolean
   featuredImage: String
   id: ID!
   seoDescription: String

@@ -349,12 +349,19 @@ export class AppModule {}
 \`\`\`
       `,
       excerpt: 'Learn how to get started with GraphQL for your API development',
-      featuredImage: 'https://example.com/images/graphql.jpg',
+      featuredImage: {
+        create: {
+          filename: 'graphql.jpg',
+          url: 'https://example.com/images/graphql.jpg',
+          key: 'uploads/graphql.jpg',
+          type: 'image/jpeg',
+          size: 1024 * 80, // 80KB
+          userId: users.admin.id,
+        },
+      },
+      featured: true, // Set this post as featured
       status: PostStatus.PUBLISHED,
       publishedAt: new Date(),
-      seoTitle: 'Getting Started with GraphQL - A Beginner Guide',
-      seoDescription:
-        'Learn how to use GraphQL in your applications for efficient data fetching',
       author: {
         connect: {
           id: users.admin.id,
@@ -429,22 +436,27 @@ npx create-next-app blog-frontend
 
 ### Install Dependencies
 
-\`\`\`bash
-npm install @apollo/client graphql
-\`\`\`
-
+      excerpt:
+        'Learn how to create a modern blog platform with Next.js and NestJS',
+      featuredImage: {
+        create: {
+          filename: 'nextjs-nestjs.jpg',
+          url: 'https://example.com/images/nextjs-nestjs.jpg',
+          key: 'uploads/nextjs-nestjs.jpg',
+          type: 'image/jpeg',
+          size: 1024 * 95, // 95KB
+          userId: users.admin.id,
+        },
+      },
+      status: PostStatus.PUBLISHED,
 ## Connecting Frontend and Backend
 
 Create an Apollo client in your Next.js app...
       `,
       excerpt:
         'Learn how to create a modern blog platform with Next.js and NestJS',
-      featuredImage: 'https://example.com/images/nextjs-nestjs.jpg',
       status: PostStatus.PUBLISHED,
       publishedAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000), // 2 days ago
-      seoTitle: 'Building a Modern Blog with Next.js and NestJS',
-      seoDescription:
-        'Step-by-step guide to creating a full-stack blog with Next.js and NestJS',
       author: {
         connect: {
           id: users.admin.id,
@@ -547,12 +559,8 @@ function processValue(value: string | number) {
 ## And many more tips...
       `,
       excerpt: 'Learn the best practices for TypeScript development in 2025',
-      featuredImage: 'https://example.com/images/typescript.jpg',
       status: PostStatus.PUBLISHED,
       publishedAt: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000), // 5 days ago
-      seoTitle: 'TypeScript Best Practices for 2025',
-      seoDescription:
-        'Learn modern TypeScript practices for clean, maintainable code',
       author: {
         connect: {
           id: users.editor.id,

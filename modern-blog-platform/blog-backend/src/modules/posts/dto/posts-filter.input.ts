@@ -36,4 +36,8 @@ export class PostsFilterInput {
   @IsString()
   @IsOptional()
   search?: string;
+
+  @Field({ nullable: true })
+  @IsOptional()
+  featured?: boolean;
 }

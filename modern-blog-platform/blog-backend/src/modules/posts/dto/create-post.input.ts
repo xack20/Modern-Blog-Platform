@@ -34,6 +34,10 @@ export class CreatePostInput {
   @IsOptional()
   featuredImage?: string;
 
+  @Field({ nullable: true })
+  @IsOptional()
+  featured?: boolean;
+
   @Field(() => PostStatus, { defaultValue: PostStatus.DRAFT })
   @IsEnum(PostStatus)
   @IsOptional()

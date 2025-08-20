@@ -1,6 +1,6 @@
 import { Field, ID, ObjectType } from '@nestjs/graphql';
-import { Category } from '../../categories/entities/category.entity';
 import { PostStatus } from '../../../common/enums/post-status.enum';
+import { Category } from '../../categories/entities/category.entity';
 import { Tag } from '../../tags/entities/tag.entity';
 import { User } from '../../users/entities/user.entity';
 
@@ -23,6 +23,9 @@ export class Post {
 
   @Field({ nullable: true })
   featuredImage?: string;
+
+  @Field({ nullable: true })
+  featured?: boolean;
 
   @Field(() => PostStatus)
   status: PostStatus;

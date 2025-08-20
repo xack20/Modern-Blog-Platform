@@ -1,16 +1,56 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { Prisma } from '@prisma/client';
 import slugify from 'slugify';
 import { PostStatus } from '../../common/enums/post-status.enum';
 import { PrismaService } from '../../prisma.service';
 import { CreatePostInput } from './dto/create-post.input';
 import { PostsFilterInput } from './dto/posts-filter.input';
 import { UpdatePostInput } from './dto/update-post.input';
+import { Post } from './entities/post.entity';
 
 @Injectable()
 export class PostsService {
   constructor(private prisma: PrismaService) {}
 
-  async create(authorId: string, createPostInput: CreatePostInput) {
+  async findFeatured(limit?: number): Promise<Post[]> {
+    const posts = await this.prisma.post.findMany({
+      where: {
+        status: PostStatus.PUBLISHED,
+        featured: true,
+      } satisfies Prisma.PostWhereInput,
+      include: {
+        author: {
+          include: {
+            profile: true,
+          },
+        },
+        category: true,
+        tags: {
+          include: {
+            tag: true,
+          },
+        },
+        featuredImage: true,
+      },
+      orderBy: {
+        publishedAt: 'desc',
+      },
+      take: limit || undefined,
+    });
+
+    // Transform to GraphQL schema format
+    return posts.map((post) => ({
+      ...post,
+      excerpt: post.excerpt || undefined,
+      featuredImage: post.featuredImage?.url || undefined,
+      tags: post.tags?.map((pt) => pt.tag) || [],
+    })) as Post[];
+  }
+
+  async create(
+    authorId: string,
+    createPostInput: CreatePostInput,
+  ): Promise<any> {
     const { tagIds, ...postData } = createPostInput;
 
     // Generate slug from title
@@ -31,17 +71,21 @@ export class PostsService {
       postData.status === PostStatus.PUBLISHED ? new Date() : null;
 
     // Create post with relationships
-    const { categoryId, ...postDataWithoutCategory } = postData;
+    const { categoryId, featuredImage, featured, ...postDataWithoutExtra } =
+      postData;
 
     const post = await this.prisma.post.create({
       data: {
-        ...postDataWithoutCategory,
+        ...postDataWithoutExtra,
         slug: finalSlug,
         publishedAt,
+        views: 0,
+        featured: featured ?? false,
         author: {
           connect: { id: authorId },
         },
         category: categoryId ? { connect: { id: categoryId } } : undefined,
+        featuredImage: featuredImage || null,
         tags:
           tagIds && tagIds.length > 0
             ? {
@@ -50,7 +94,7 @@ export class PostsService {
                 })),
               }
             : undefined,
-      },
+      } as Prisma.PostCreateInput,
       include: {
         author: {
           include: {
@@ -85,7 +129,7 @@ export class PostsService {
     } = filters;
 
     // Build the where clause
-    const where: any = {};
+    const where: Prisma.PostWhereInput = {};
 
     if (status) {
       where.status = status;
@@ -112,6 +156,10 @@ export class PostsService {
         { title: { contains: search, mode: 'insensitive' } },
         { content: { contains: search, mode: 'insensitive' } },
       ];
+    }
+
+    if (filters.featured !== undefined) {
+      where.featured = filters.featured;
     }
 
     // Get posts with pagination
@@ -209,7 +257,7 @@ export class PostsService {
     };
   }
 
-  async update(id: string, updatePostInput: UpdatePostInput) {
+  async update(id: string, updatePostInput: UpdatePostInput): Promise<any> {
     const { tagIds, ...postData } = updatePostInput;
 
     // Check if post exists
@@ -231,13 +279,19 @@ export class PostsService {
       publishedAt = new Date();
     }
 
-    // Update post
-    const { categoryId, ...postDataWithoutCategory } = postData;
+    // Update post - only update valid database fields
+    const { title, content, excerpt, slug, status, featured, categoryId } =
+      postData;
 
     const post = await this.prisma.post.update({
       where: { id },
       data: {
-        ...postDataWithoutCategory,
+        title,
+        content,
+        excerpt,
+        slug,
+        status,
+        featured,
         publishedAt,
         category: categoryId ? { connect: { id: categoryId } } : undefined,
       },
