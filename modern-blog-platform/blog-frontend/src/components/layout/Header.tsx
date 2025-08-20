@@ -72,14 +72,14 @@ export default function Header() {
           <div className="hidden sm:flex sm:items-center space-x-3">
             <button
               onClick={() => router.push('/search')}
-              className="p-2 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gradient-to-r hover:from-blue-500 hover:to-purple-500 hover:text-white transition-all duration-300 hover:scale-110 transform"
+              className="p-2 rounded-full bg-white/10 dark:bg-white/10 backdrop-blur-sm text-gray-700 dark:text-gray-300 hover:bg-gradient-to-r hover:from-blue-500 hover:to-purple-500 hover:text-white transition-all duration-300 hover:scale-110 transform border border-white/20"
             >
               <Search className="h-5 w-5" />
             </button>
             
             <button
               onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-              className="p-2 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gradient-to-r hover:from-purple-500 hover:to-pink-500 hover:text-white transition-all duration-300 hover:scale-110 transform"
+              className="p-2 rounded-full bg-white/10 dark:bg-white/10 backdrop-blur-sm text-gray-700 dark:text-gray-300 hover:bg-gradient-to-r hover:from-purple-500 hover:to-pink-500 hover:text-white transition-all duration-300 hover:scale-110 transform border border-white/20"
             >
               {theme === 'dark' ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
             </button>
@@ -88,13 +88,13 @@ export default function Header() {
               <div className="flex items-center space-x-3">
                 <Link
                   href="/dashboard"
-                  className="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-white bg-gray-100 dark:bg-gray-800 rounded-lg hover:bg-gradient-to-r hover:from-green-500 hover:to-blue-500 transition-all duration-300"
+                  className="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-white bg-white/10 dark:bg-white/10 backdrop-blur-sm rounded-lg hover:bg-gradient-to-r hover:from-green-500 hover:to-blue-500 transition-all duration-300 border border-white/20"
                 >
                   Dashboard
                 </Link>
                 <Link
                   href="/profile"
-                  className="p-2 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gradient-to-r hover:from-pink-500 hover:to-red-500 hover:text-white transition-all duration-300 hover:scale-110 transform"
+                  className="p-2 rounded-full bg-white/10 dark:bg-white/10 backdrop-blur-sm text-gray-700 dark:text-gray-300 hover:bg-gradient-to-r hover:from-pink-500 hover:to-red-500 hover:text-white transition-all duration-300 hover:scale-110 transform border border-white/20"
                 >
                   <User className="h-5 w-5" />
                 </Link>
@@ -103,13 +103,13 @@ export default function Header() {
               <div className="flex items-center space-x-3">
                 <Link
                   href="/login"
-                  className="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-white bg-gray-100 dark:bg-gray-800 rounded-lg hover:bg-gradient-to-r hover:from-gray-600 hover:to-gray-700 transition-all duration-300"
+                  className="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-white bg-white/10 dark:bg-white/10 backdrop-blur-sm rounded-lg hover:bg-gradient-to-r hover:from-slate-600 hover:to-slate-700 transition-all duration-300 border border-white/20"
                 >
                   Sign in
                 </Link>
                 <Link
                   href="/register"
-                  className="px-4 py-2 text-sm font-semibold text-white bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 hover:from-blue-700 hover:to-purple-700"
+                  className="px-4 py-2 text-sm font-semibold text-white bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 hover:from-blue-700 hover:to-purple-700 border border-blue-500/20"
                 >
                   Sign up
                 </Link>

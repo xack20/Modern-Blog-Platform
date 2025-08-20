@@ -58,16 +58,16 @@ export default function Login() {
     <Layout>
       <NextSeo title="Login - Modern Blog Platform" />
       
-      <div className="min-h-screen flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:via-purple-900/20 dark:to-pink-900/20 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-md">
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900 dark:text-white">
-            Sign in to your account
+          <h2 className="mt-6 text-center text-4xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
+            Welcome Back
           </h2>
           <p className="mt-2 text-center text-sm text-gray-600 dark:text-gray-400">
-            Or{' '}
+            Sign in to your account or{' '}
             <Link 
               href="/register" 
-              className="font-medium text-indigo-600 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300"
+              className="font-medium bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent hover:from-purple-700 hover:to-pink-700 transition-all duration-300"
             >
               create a new account
             </Link>
@@ -75,9 +75,12 @@ export default function Login() {
         </div>
 
         <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-          <div className="bg-white dark:bg-gray-800 py-8 px-4 shadow sm:rounded-lg sm:px-10">
+          <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-xl py-8 px-4 shadow-2xl border border-white/20 sm:rounded-2xl sm:px-10 relative overflow-hidden">
+            {/* Animated background gradient */}
+            <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 via-purple-500/5 to-pink-500/5 dark:from-blue-400/10 dark:via-purple-400/10 dark:to-pink-400/10"></div>
+            
             {loginError && (
-              <div className="rounded-md bg-red-50 dark:bg-red-900/30 p-4 mb-6">
+              <div className="rounded-xl bg-red-50/80 dark:bg-red-900/30 backdrop-blur-sm p-4 mb-6 border border-red-200/50 dark:border-red-800/50">
                 <div className="flex">
                   <div className="ml-3">
                     <h3 className="text-sm font-medium text-red-800 dark:text-red-200">Error</h3>
@@ -89,9 +92,9 @@ export default function Login() {
               </div>
             )}
             
-            <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
+            <form className="space-y-6 relative z-10" onSubmit={handleSubmit(onSubmit)}>
               <div>
-                <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   Email address
                 </label>
                 <div className="mt-1">
@@ -100,9 +103,10 @@ export default function Login() {
                     type="email"
                     autoComplete="email"
                     {...register('email')}
-                    className={`appearance-none block w-full px-3 py-2 border ${
-                      errors.email ? 'border-red-300 dark:border-red-700' : 'border-gray-300 dark:border-gray-600'
-                    } rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white sm:text-sm`}
+                    className={`appearance-none block w-full px-4 py-3 border ${
+                      errors.email ? 'border-red-300 dark:border-red-700' : 'border-gray-300/50 dark:border-gray-600/50'
+                    } rounded-xl shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white/50 dark:bg-gray-700/50 backdrop-blur-sm dark:text-white sm:text-sm transition-all duration-300`}
+                    placeholder="Enter your email"
                   />
                   {errors.email && (
                     <p className="mt-2 text-sm text-red-600 dark:text-red-400">{errors.email.message}</p>
@@ -111,7 +115,7 @@ export default function Login() {
               </div>
 
               <div>
-                <label htmlFor="password" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                <label htmlFor="password" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   Password
                 </label>
                 <div className="mt-1">
@@ -120,9 +124,10 @@ export default function Login() {
                     type="password"
                     autoComplete="current-password"
                     {...register('password')}
-                    className={`appearance-none block w-full px-3 py-2 border ${
-                      errors.password ? 'border-red-300 dark:border-red-700' : 'border-gray-300 dark:border-gray-600'
-                    } rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white sm:text-sm`}
+                    className={`appearance-none block w-full px-4 py-3 border ${
+                      errors.password ? 'border-red-300 dark:border-red-700' : 'border-gray-300/50 dark:border-gray-600/50'
+                    } rounded-xl shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white/50 dark:bg-gray-700/50 backdrop-blur-sm dark:text-white sm:text-sm transition-all duration-300`}
+                    placeholder="Enter your password"
                   />
                   {errors.password && (
                     <p className="mt-2 text-sm text-red-600 dark:text-red-400">{errors.password.message}</p>
@@ -136,9 +141,9 @@ export default function Login() {
                     id="remember-me"
                     name="remember-me"
                     type="checkbox"
-                    className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 dark:border-gray-600 rounded"
+                    className="h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 dark:border-gray-600 rounded transition-colors duration-300"
                   />
-                  <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900 dark:text-gray-300">
+                  <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-700 dark:text-gray-300">
                     Remember me
                   </label>
                 </div>
@@ -146,9 +151,9 @@ export default function Login() {
                 <div className="text-sm">
                   <Link 
                     href="/forgot-password" 
-                    className="font-medium text-indigo-600 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300"
+                    className="font-medium bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent hover:from-purple-700 hover:to-pink-700 transition-all duration-300"
                   >
-                    Forgot your password?
+                    Forgot password?
                   </Link>
                 </div>
               </div>
@@ -157,20 +162,27 @@ export default function Login() {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full flex justify-center py-3 px-4 border border-transparent rounded-xl shadow-lg text-sm font-semibold text-white bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 hover:from-blue-700 hover:via-purple-700 hover:to-pink-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-[1.02] transition-all duration-300"
                 >
-                  {isSubmitting ? 'Signing in...' : 'Sign in'}
+                  {isSubmitting ? (
+                    <div className="flex items-center">
+                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                      Signing in...
+                    </div>
+                  ) : (
+                    'Sign in'
+                  )}
                 </button>
               </div>
             </form>
 
-            <div className="mt-6">
+            <div className="mt-6 relative z-10">
               <div className="relative">
                 <div className="absolute inset-0 flex items-center">
-                  <div className="w-full border-t border-gray-300 dark:border-gray-600" />
+                  <div className="w-full border-t border-gray-300/50 dark:border-gray-600/50" />
                 </div>
                 <div className="relative flex justify-center text-sm">
-                  <span className="px-2 bg-white dark:bg-gray-800 text-gray-500 dark:text-gray-400">
+                  <span className="px-4 bg-white/80 dark:bg-gray-800/80 text-gray-500 dark:text-gray-400 rounded-full">
                     Or continue with
                   </span>
                 </div>
@@ -178,21 +190,21 @@ export default function Login() {
 
               <div className="mt-6 grid grid-cols-2 gap-3">
                 <div>
-                  <a
-                    href="#"
-                    className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm bg-white dark:bg-gray-700 text-sm font-medium text-gray-500 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-600"
+                  <button
+                    type="button"
+                    className="w-full inline-flex justify-center py-3 px-4 border border-gray-300/50 dark:border-gray-600/50 rounded-xl shadow-sm bg-white/50 dark:bg-gray-700/50 backdrop-blur-sm text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-white/80 dark:hover:bg-gray-600/80 transition-all duration-300 hover:scale-105"
                   >
                     <span className="sr-only">Sign in with Google</span>
                     <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                       <path d="M12.545,10.239v3.821h5.445c-0.712,2.315-2.647,3.972-5.445,3.972c-3.332,0-6.033-2.701-6.033-6.032s2.701-6.032,6.033-6.032c1.498,0,2.866,0.549,3.921,1.453l2.814-2.814C17.503,2.988,15.139,2,12.545,2C7.021,2,2.543,6.477,2.543,12s4.478,10,10.002,10c8.396,0,10.249-7.85,9.426-11.748L12.545,10.239z"/>
                     </svg>
-                  </a>
+                  </button>
                 </div>
 
                 <div>
-                  <a
-                    href="#"
-                    className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm bg-white dark:bg-gray-700 text-sm font-medium text-gray-500 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-600"
+                  <button
+                    type="button"
+                    className="w-full inline-flex justify-center py-3 px-4 border border-gray-300/50 dark:border-gray-600/50 rounded-xl shadow-sm bg-white/50 dark:bg-gray-700/50 backdrop-blur-sm text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-white/80 dark:hover:bg-gray-600/80 transition-all duration-300 hover:scale-105"
                   >
                     <span className="sr-only">Sign in with GitHub</span>
                     <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -202,7 +214,7 @@ export default function Login() {
                         clipRule="evenodd"
                       />
                     </svg>
-                  </a>
+                  </button>
                 </div>
               </div>
             </div>

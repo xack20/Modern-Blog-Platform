@@ -72,26 +72,29 @@ export default function Register() {
     <Layout>
       <NextSeo title="Register - Modern Blog Platform" />
       
-      <div className="min-h-screen flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:via-purple-900/20 dark:to-pink-900/20 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-md">
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900 dark:text-white">
-            Create a new account
+          <h2 className="mt-6 text-center text-4xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
+            Join Us Today
           </h2>
           <p className="mt-2 text-center text-sm text-gray-600 dark:text-gray-400">
-            Or{' '}
+            Create your account or{' '}
             <Link 
               href="/login" 
-              className="font-medium text-indigo-600 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300"
+              className="font-medium bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent hover:from-purple-700 hover:to-pink-700 transition-all duration-300"
             >
-              sign in to your existing account
+              sign in to existing account
             </Link>
           </p>
         </div>
 
         <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-          <div className="bg-white dark:bg-gray-800 py-8 px-4 shadow sm:rounded-lg sm:px-10">
+          <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-xl py-8 px-4 shadow-2xl border border-white/20 sm:rounded-2xl sm:px-10 relative overflow-hidden">
+            {/* Animated background gradient */}
+            <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 via-purple-500/5 to-pink-500/5 dark:from-blue-400/10 dark:via-purple-400/10 dark:to-pink-400/10"></div>
+            
             {registerError && (
-              <div className="rounded-md bg-red-50 dark:bg-red-900/30 p-4 mb-6">
+              <div className="rounded-xl bg-red-50/80 dark:bg-red-900/30 backdrop-blur-sm p-4 mb-6 border border-red-200/50 dark:border-red-800/50">
                 <div className="flex">
                   <div className="ml-3">
                     <h3 className="text-sm font-medium text-red-800 dark:text-red-200">Error</h3>
@@ -103,9 +106,9 @@ export default function Register() {
               </div>
             )}
             
-            <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
+            <form className="space-y-6 relative z-10" onSubmit={handleSubmit(onSubmit)}>
               <div>
-                <label htmlFor="username" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                <label htmlFor="username" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   Username
                 </label>
                 <div className="mt-1">
@@ -114,9 +117,10 @@ export default function Register() {
                     type="text"
                     autoComplete="username"
                     {...register('username')}
-                    className={`appearance-none block w-full px-3 py-2 border ${
-                      errors.username ? 'border-red-300 dark:border-red-700' : 'border-gray-300 dark:border-gray-600'
-                    } rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white sm:text-sm`}
+                    className={`appearance-none block w-full px-4 py-3 border ${
+                      errors.username ? 'border-red-300 dark:border-red-700' : 'border-gray-300/50 dark:border-gray-600/50'
+                    } rounded-xl shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white/50 dark:bg-gray-700/50 backdrop-blur-sm dark:text-white sm:text-sm transition-all duration-300`}
+                    placeholder="Choose a username"
                   />
                   {errors.username && (
                     <p className="mt-2 text-sm text-red-600 dark:text-red-400">{errors.username.message}</p>
@@ -125,7 +129,7 @@ export default function Register() {
               </div>
 
               <div>
-                <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   Email address
                 </label>
                 <div className="mt-1">
@@ -134,9 +138,10 @@ export default function Register() {
                     type="email"
                     autoComplete="email"
                     {...register('email')}
-                    className={`appearance-none block w-full px-3 py-2 border ${
-                      errors.email ? 'border-red-300 dark:border-red-700' : 'border-gray-300 dark:border-gray-600'
-                    } rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white sm:text-sm`}
+                    className={`appearance-none block w-full px-4 py-3 border ${
+                      errors.email ? 'border-red-300 dark:border-red-700' : 'border-gray-300/50 dark:border-gray-600/50'
+                    } rounded-xl shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white/50 dark:bg-gray-700/50 backdrop-blur-sm dark:text-white sm:text-sm transition-all duration-300`}
+                    placeholder="Enter your email"
                   />
                   {errors.email && (
                     <p className="mt-2 text-sm text-red-600 dark:text-red-400">{errors.email.message}</p>
@@ -145,7 +150,7 @@ export default function Register() {
               </div>
 
               <div>
-                <label htmlFor="password" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                <label htmlFor="password" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   Password
                 </label>
                 <div className="mt-1">
@@ -154,9 +159,10 @@ export default function Register() {
                     type="password"
                     autoComplete="new-password"
                     {...register('password')}
-                    className={`appearance-none block w-full px-3 py-2 border ${
-                      errors.password ? 'border-red-300 dark:border-red-700' : 'border-gray-300 dark:border-gray-600'
-                    } rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white sm:text-sm`}
+                    className={`appearance-none block w-full px-4 py-3 border ${
+                      errors.password ? 'border-red-300 dark:border-red-700' : 'border-gray-300/50 dark:border-gray-600/50'
+                    } rounded-xl shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white/50 dark:bg-gray-700/50 backdrop-blur-sm dark:text-white sm:text-sm transition-all duration-300`}
+                    placeholder="Create a password"
                   />
                   {errors.password && (
                     <p className="mt-2 text-sm text-red-600 dark:text-red-400">{errors.password.message}</p>
@@ -165,7 +171,7 @@ export default function Register() {
               </div>
 
               <div>
-                <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   Confirm Password
                 </label>
                 <div className="mt-1">
@@ -174,9 +180,10 @@ export default function Register() {
                     type="password"
                     autoComplete="new-password"
                     {...register('confirmPassword')}
-                    className={`appearance-none block w-full px-3 py-2 border ${
-                      errors.confirmPassword ? 'border-red-300 dark:border-red-700' : 'border-gray-300 dark:border-gray-600'
-                    } rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white sm:text-sm`}
+                    className={`appearance-none block w-full px-4 py-3 border ${
+                      errors.confirmPassword ? 'border-red-300 dark:border-red-700' : 'border-gray-300/50 dark:border-gray-600/50'
+                    } rounded-xl shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white/50 dark:bg-gray-700/50 backdrop-blur-sm dark:text-white sm:text-sm transition-all duration-300`}
+                    placeholder="Confirm your password"
                   />
                   {errors.confirmPassword && (
                     <p className="mt-2 text-sm text-red-600 dark:text-red-400">{errors.confirmPassword.message}</p>
@@ -189,20 +196,20 @@ export default function Register() {
                   id="terms"
                   name="terms"
                   type="checkbox"
-                  className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 dark:border-gray-600 rounded"
+                  className="h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 dark:border-gray-600 rounded transition-colors duration-300"
                 />
-                <label htmlFor="terms" className="ml-2 block text-sm text-gray-900 dark:text-gray-300">
+                <label htmlFor="terms" className="ml-2 block text-sm text-gray-700 dark:text-gray-300">
                   I agree to the{' '}
                   <Link 
                     href="/terms" 
-                    className="font-medium text-indigo-600 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300"
+                    className="font-medium bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent hover:from-purple-700 hover:to-pink-700 transition-all duration-300"
                   >
                     Terms of Service
                   </Link>{' '}
                   and{' '}
                   <Link 
                     href="/privacy" 
-                    className="font-medium text-indigo-600 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300"
+                    className="font-medium bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent hover:from-purple-700 hover:to-pink-700 transition-all duration-300"
                   >
                     Privacy Policy
                   </Link>
@@ -213,9 +220,16 @@ export default function Register() {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full flex justify-center py-3 px-4 border border-transparent rounded-xl shadow-lg text-sm font-semibold text-white bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 hover:from-blue-700 hover:via-purple-700 hover:to-pink-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-[1.02] transition-all duration-300"
                 >
-                  {isSubmitting ? 'Creating account...' : 'Create account'}
+                  {isSubmitting ? (
+                    <div className="flex items-center">
+                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                      Creating account...
+                    </div>
+                  ) : (
+                    'Create account'
+                  )}
                 </button>
               </div>
             </form>
