@@ -351,11 +351,11 @@ export class AppModule {}
       excerpt: 'Learn how to get started with GraphQL for your API development',
       featuredImage: {
         create: {
-          filename: 'graphql.jpg',
-          url: 'https://example.com/images/graphql.jpg',
-          key: 'uploads/graphql.jpg',
+          filename: 'graphql-tech.jpg',
+          url: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800&h=400&fit=crop&crop=entropy&auto=format&q=80',
+          key: 'uploads/graphql-tech.jpg',
           type: 'image/jpeg',
-          size: 1024 * 80, // 80KB
+          size: 1024 * 120, // 120KB
           userId: users.admin.id,
         },
       },
@@ -440,11 +440,11 @@ npx create-next-app blog-frontend
         'Learn how to create a modern blog platform with Next.js and NestJS',
       featuredImage: {
         create: {
-          filename: 'nextjs-nestjs.jpg',
-          url: 'https://example.com/images/nextjs-nestjs.jpg',
-          key: 'uploads/nextjs-nestjs.jpg',
+          filename: 'web-development.jpg',
+          url: 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=800&h=400&fit=crop&crop=entropy&auto=format&q=80',
+          key: 'uploads/web-development.jpg',
           type: 'image/jpeg',
-          size: 1024 * 95, // 95KB
+          size: 1024 * 110, // 110KB
           userId: users.admin.id,
         },
       },

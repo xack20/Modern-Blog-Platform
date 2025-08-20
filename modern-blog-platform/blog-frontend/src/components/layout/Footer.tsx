@@ -1,3 +1,4 @@
+import { Code, Coffee, Heart } from 'lucide-react';
 import Link from 'next/link';
 
 export default function Footer() {
@@ -32,38 +33,129 @@ export default function Footer() {
           </svg>
         ),
       },
+      {
+        name: 'LinkedIn',
+        href: '#',
+        icon: (props: React.SVGProps<SVGSVGElement>) => (
+          <svg fill="currentColor" viewBox="0 0 24 24" {...props}>
+            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+          </svg>
+        ),
+      },
     ],
   };
   
   const year = new Date().getFullYear();
   
   return (
-    <footer className="bg-white dark:bg-gray-900">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="border-t border-gray-200 dark:border-gray-700 py-12 md:flex md:items-center md:justify-between">
-          <div className="flex justify-center space-x-6 md:order-2">
-            {navigation.social.map((item) => (
-              <a key={item.name} href={item.href} className="text-gray-400 hover:text-gray-500 dark:hover:text-gray-300">
-                <span className="sr-only">{item.name}</span>
-                <item.icon className="h-6 w-6" aria-hidden="true" />
-              </a>
-            ))}
+    <footer className="relative bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 text-white overflow-hidden">
+      {/* Background decoration */}
+      <div className="absolute inset-0">
+        <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-blue-500 to-transparent"></div>
+        <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+        <div className="absolute top-10 right-10 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-10 left-10 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl"></div>
+      </div>
+
+      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="py-16">
+          {/* Main content */}
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+            {/* Brand section */}
+            <div className="md:col-span-2">
+              <Link href="/" className="inline-block mb-4">
+                <h3 className="text-2xl font-bold bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
+                  Modern Blog Platform
+                </h3>
+              </Link>
+              <p className="text-gray-300 mb-6 max-w-md leading-relaxed">
+                Empowering writers and readers with cutting-edge technology. Share your stories, 
+                discover new perspectives, and join a community that values quality content.
+              </p>
+              <div className="flex items-center space-x-2 text-sm text-gray-400">
+                <span>Built with</span>
+                <Heart className="h-4 w-4 text-red-400 animate-pulse" />
+                <span>and</span>
+                <Code className="h-4 w-4 text-blue-400" />
+                <span>and lots of</span>
+                <Coffee className="h-4 w-4 text-yellow-400" />
+              </div>
+            </div>
+
+            {/* Navigation */}
+            <div>
+              <h4 className="text-lg font-semibold mb-4 text-white">Navigation</h4>
+              <nav className="space-y-3">
+                {navigation.main.map((item) => (
+                  <Link 
+                    key={item.name} 
+                    href={item.href}
+                    className="block text-gray-300 hover:text-white hover:translate-x-2 transition-all duration-300 group"
+                  >
+                    <span className="relative">
+                      {item.name}
+                      <span className="absolute bottom-0 left-0 w-0 h-px bg-gradient-to-r from-blue-400 to-purple-400 group-hover:w-full transition-all duration-300"></span>
+                    </span>
+                  </Link>
+                ))}
+              </nav>
+            </div>
+
+            {/* Social & Contact */}
+            <div>
+              <h4 className="text-lg font-semibold mb-4 text-white">Connect</h4>
+              <div className="flex space-x-4 mb-6">
+                {navigation.social.map((item) => (
+                  <a 
+                    key={item.name} 
+                    href={item.href} 
+                    className="p-2 bg-white/10 backdrop-blur-sm rounded-lg text-gray-300 hover:text-white hover:bg-gradient-to-r hover:from-blue-500 hover:to-purple-500 transition-all duration-300 hover:scale-110 transform"
+                  >
+                    <span className="sr-only">{item.name}</span>
+                    <item.icon className="h-5 w-5" aria-hidden="true" />
+                  </a>
+                ))}
+              </div>
+              <p className="text-sm text-gray-400">
+                Follow us for updates and exclusive content
+              </p>
+            </div>
           </div>
-          <div className="mt-8 md:order-1 md:mt-0">
-            <nav className="flex justify-center space-x-6">
-              {navigation.main.map((item) => (
-                <Link 
-                  key={item.name} 
-                  href={item.href}
-                  className="text-sm text-gray-500 hover:text-gray-600 dark:text-gray-400 dark:hover:text-gray-300"
-                >
-                  {item.name}
-                </Link>
-              ))}
-            </nav>
-            <p className="mt-8 text-center text-sm text-gray-500 dark:text-gray-400">
+
+          {/* Newsletter subscription */}
+          <div className="border-t border-white/10 pt-8 mb-8">
+            <div className="max-w-md mx-auto text-center">
+              <h4 className="text-lg font-semibold mb-2 text-white">Stay Updated</h4>
+              <p className="text-gray-300 mb-4 text-sm">Get the latest articles delivered to your inbox</p>
+              <div className="flex gap-2">
+                <input
+                  type="email"
+                  placeholder="Enter your email"
+                  className="flex-1 px-4 py-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                />
+                <button className="px-6 py-2 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg text-white font-medium hover:from-blue-700 hover:to-purple-700 transition-all duration-300 hover:scale-105 transform">
+                  Subscribe
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* Bottom section */}
+          <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row items-center justify-between">
+            <p className="text-sm text-gray-400 mb-4 md:mb-0">
               &copy; {year} Modern Blog Platform. All rights reserved.
             </p>
+            <div className="flex space-x-6 text-sm">
+              <Link href="/privacy" className="text-gray-400 hover:text-white transition-colors duration-300">
+                Privacy Policy
+              </Link>
+              <Link href="/terms" className="text-gray-400 hover:text-white transition-colors duration-300">
+                Terms of Service
+              </Link>
+              <Link href="/cookies" className="text-gray-400 hover:text-white transition-colors duration-300">
+                Cookie Policy
+              </Link>
+            </div>
           </div>
         </div>
       </div>
